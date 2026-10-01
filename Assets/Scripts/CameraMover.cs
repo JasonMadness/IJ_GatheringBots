@@ -11,20 +11,7 @@ public class CameraMover : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis(Horizontal);
         float verticalInput = Input.GetAxis(Vertical);
-        Vector3 cameraDirection = GetCameraDirection();
-
-        Vector3 movement = new Vector3(horizontalInput * cameraDirection.x, 0f, verticalInput * cameraDirection.z) * _moveSpeed * Time.deltaTime;
+        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * _moveSpeed * Time.deltaTime;
         transform.Translate(movement, Space.World);
-    }
-
-    private Vector3 GetCameraDirection()
-    {
-        Vector3 forward = transform.forward;
-        forward.y = 0f;
-        forward.Normalize();
-        Vector3 right = transform.right;
-        right.y = 0f;
-        right.Normalize();
-        return new Vector3(right.x, 0f, forward.z);
     }
 }
