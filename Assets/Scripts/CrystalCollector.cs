@@ -14,6 +14,7 @@ public class CrystalCollector : MonoBehaviour
     {
         _crystal = crystal;
         _collectionTime = crystal.CollectTime;
+        CrystalCollected += _crystal.OnCollected;
         StartCoroutine(CollectionCoroutine());
     }
 
@@ -28,5 +29,7 @@ public class CrystalCollector : MonoBehaviour
         }
 
         CrystalCollected?.Invoke(_crystal);
+        CrystalCollected -= _crystal.OnCollected;
+        _crystal = null;
     }
 }
