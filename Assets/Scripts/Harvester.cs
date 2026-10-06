@@ -50,5 +50,13 @@ public class Harvester : MonoBehaviour
     private void ReturnToBase()
     {
         _mover.SetTarget(_homebase);
+        _mover.TargetReached += OnReturnedToBase;
+    }
+
+    public void OnReturnedToBase()
+    {
+        _isBusy = false;
+        _target = null;
+        _mover.TargetReached -= OnReturnedToBase;
     }
 }
