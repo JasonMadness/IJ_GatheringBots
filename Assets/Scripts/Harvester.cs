@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CrystalCollector))]
 public class Harvester : MonoBehaviour
 {
+    private Base _homebase;
     private HarvesterMover _mover;
     private CrystalCollector _collector;
     private bool _isBusy = false;
@@ -14,6 +15,11 @@ public class Harvester : MonoBehaviour
     {
         _collector = GetComponent<CrystalCollector>();
         _mover = GetComponent<HarvesterMover>();
+    }
+
+    public void SetHomeBase(Base homebase)
+    {
+        _homebase = homebase;
     }
 
     public void Sent(Crystal crystal)
