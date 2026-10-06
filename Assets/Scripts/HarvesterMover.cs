@@ -21,6 +21,7 @@ public class HarvesterMover : MonoBehaviour
         if (_target == null)
             return;
 
+        transform.LookAt(new Vector3(_target.Position.x, transform.position.y, _target.Position.z));
         transform.position = Vector3.MoveTowards(transform.position, _target.Position, Time.deltaTime * _speed);
 
         if (Vector3.Distance(transform.position, _target.Position) < _target.ReachRadius)
