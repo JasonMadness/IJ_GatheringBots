@@ -3,9 +3,11 @@ using UnityEngine;
 public class Crystal : MonoBehaviour, IHarvesterTarget
 {
     [SerializeField] private float _collectRadius = 4f;
+    [SerializeField] private float _collectTime = 3f;
 
     public Vector3 Position => transform.position;
     public float ReachRadius => _collectRadius;
+    public float CollectTime => _collectTime;
 
     private void OnDrawGizmosSelected()
     {
