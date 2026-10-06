@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Base : MonoBehaviour, IHarvesterTarget
 {
+    [SerializeField] private List<Harvester> _harvesters;
     [SerializeField] private float _reachRadius = 10f;
     private List<Crystal> _freeCrystals = new();
     private List<Crystal> _busyCrystals = new();
-    private List<Harvester> _harvesters = new();
 
     public float ReachRadius => _reachRadius;
     public Vector3 Position => transform.position;
