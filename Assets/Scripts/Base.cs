@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Base : MonoBehaviour
+public class Base : MonoBehaviour, IHarvesterTarget
 {
+    [SerializeField] private float _reachRadius = 10f;
     private List<Crystal> _freeCrystals = new();
     private List<Crystal> _busyCrystals = new();
     private List<Harvester> _harvesters = new();
+
+    public float ReachRadius => _reachRadius;
+    public Vector3 Position => transform.position;
 
     public void Scan()
     {
@@ -26,7 +30,7 @@ public class Base : MonoBehaviour
             if (harvester.IsBusy == false && _freeCrystals.Count > 0)
             {
                 Crystal targetCrystal = _freeCrystals[0];
-                harvester.Sent(targetCrystal);
+                harvester.Send(targetCrystal);
                 OnHarvesterSent(targetCrystal);
             }
         }
