@@ -12,9 +12,9 @@ public class Crystal : MonoBehaviour, IHarvesterTarget
     public float ReachRadius => _collectRadius;
     public float CollectTime => _collectTime;
 
-    public void NotifyCollected()
+    public void NotifyCollected(Crystal crystal)
     {
-        Collected?.Invoke(this);
+        Collected?.Invoke(crystal);
     }
 
     private void OnDrawGizmosSelected()
