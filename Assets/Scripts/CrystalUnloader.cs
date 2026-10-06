@@ -16,11 +16,13 @@ public class CrystalUnloader : MonoBehaviour
     private IEnumerator UnloadCoroutine()
     {
         float elapsed = 0f;
+
         while (elapsed < _unloadTime)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
+
         Unloaded?.Invoke();
     }
 }
