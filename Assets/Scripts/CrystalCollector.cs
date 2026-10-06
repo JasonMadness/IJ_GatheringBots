@@ -11,8 +11,9 @@ public class CrystalCollector : MonoBehaviour
 
     public event Action<Crystal> CrystalCollected;
 
-    public void Begin()
+    public void Begin(Crystal crystal)
     {
+        _crystal = crystal;
         StartCoroutine(CollectionCoroutine());
     }
 
