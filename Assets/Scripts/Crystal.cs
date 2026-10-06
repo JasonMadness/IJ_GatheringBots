@@ -15,7 +15,7 @@ public class Crystal : MonoBehaviour, IHarvesterTarget
         Gizmos.DrawWireSphere(transform.position, _collectRadius);
     }
 
-    public void OnCollected()
+    public void OnCollected(Crystal crystal)
     {
         Destroy(gameObject);
     }
