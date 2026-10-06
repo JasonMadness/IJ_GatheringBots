@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class CrystalCollector : MonoBehaviour
 {
-    [SerializeField] private float _complitionTime = 3f;
-
     private Crystal _crystal;
+    private float _collectionTime;
 
     public event Action<Crystal> CrystalCollected;
 
     public void Begin(Crystal crystal)
     {
         _crystal = crystal;
+        _collectionTime = crystal.CollectTime;
         StartCoroutine(CollectionCoroutine());
     }
 
@@ -21,7 +21,7 @@ public class CrystalCollector : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        while (elapsedTime < _complitionTime)
+        while (elapsedTime < _collectionTime)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
