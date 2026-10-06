@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +7,7 @@ public class Base : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _reachRadius = 20f;
     [SerializeField] private float _unloadTime = 2f;
 
-    private List<Crystal> _freeCrystals = new();
-    private List<Crystal> _busyCrystals = new();
+    private readonly CrystalScanner _scanner = new();
     private int _crystalGathered;
 
     public float ReachRadius => _reachRadius;
@@ -27,59 +25,45 @@ public class Base : MonoBehaviour, IHarvesterTarget
         InvokeRepeating(nameof(Scan), 2f, 2f);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, _reachRadius);
-    }
-
     private void OnDisable()
     {
         foreach (var harvester in _harvesters)
         {
             harvester.CrystalUnloaded -= OnCrystalUnloaded;
         }
+    }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, _reachRadius);
     }
 
     public void Scan()
     {
-        List<Crystal> crystals = new List<Crystal>(FindObjectsOfType<Crystal>());
+        _scanner.Refresh();
 
-        foreach (var crystal in crystals)
-        {
-            if (_busyCrystals.Contains(crystal) == false && _freeCrystals.Contains(crystal) == false)
-                _freeCrystals.Add(crystal);
-        }
-
-        if (_freeCrystals.Count > 0)
-        {
+        if (_scanner.FreeCount > 0)
             SendHarvester();
-        }
     }
 
     public void SendHarvester()
     {
         foreach (var harvester in _harvesters)
         {
-            if (harvester.IsBusy == false && _freeCrystals.Count > 0)
-            {
-                Crystal targetCrystal = _freeCrystals[0];
-                harvester.Send(targetCrystal);
-                OnHarvesterSent(targetCrystal, harvester);
-            }
-        }
-    }
+            if (harvester.IsBusy)
+                continue;
 
-    public void OnHarvesterSent(Crystal crystal, Harvester harvester)
-    {
-        _freeCrystals.Remove(crystal);
-        _busyCrystals.Add(crystal);
+            if (_scanner.TryGetFree(out Crystal crystal) == false)
+                break;
+
+            harvester.Send(crystal);
+        }
     }
 
     public void OnCrystalCollected(Crystal crystal)
     {
-        _busyCrystals.Remove(crystal);
+        _scanner.RemoveFromBase(crystal);
     }
 
     public void OnCrystalUnloaded(Harvester harvester)
