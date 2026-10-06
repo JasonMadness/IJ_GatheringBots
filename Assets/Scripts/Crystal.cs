@@ -14,4 +14,9 @@ public class Crystal : MonoBehaviour, IHarvesterTarget
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _collectRadius);
     }
+
+    public void OnCollected()
+    {
+        Destroy(gameObject);
+    }
 }
