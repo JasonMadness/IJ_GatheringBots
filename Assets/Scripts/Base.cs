@@ -6,10 +6,13 @@ public class Base : MonoBehaviour, IHarvesterTarget
 {
     [SerializeField] private List<Harvester> _harvesters;
     [SerializeField] private float _reachRadius = 20f;
+    [SerializeField] private float _unloadTime = 2f;
+
     private List<Crystal> _freeCrystals = new();
-    private List<Crystal> _busyCrystals = new();
+    private List<Crystal> _busyCrystals = new(); 
 
     public float ReachRadius => _reachRadius;
+    public float UnloadTime => _unloadTime;
     public Vector3 Position => transform.position;
 
     private void Start()
