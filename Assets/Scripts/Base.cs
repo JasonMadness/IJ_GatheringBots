@@ -9,7 +9,8 @@ public class Base : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _unloadTime = 2f;
 
     private List<Crystal> _freeCrystals = new();
-    private List<Crystal> _busyCrystals = new(); 
+    private List<Crystal> _busyCrystals = new();
+    private int _crystalGathered;
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
@@ -20,6 +21,7 @@ public class Base : MonoBehaviour, IHarvesterTarget
         foreach (var harvester in _harvesters)
         {
             harvester.SetHomeBase(this);
+            harvester.CrystalUnloaded += OnCrystalUnloaded;
         }
 
         InvokeRepeating(nameof(Scan), 2f, 2f);
@@ -29,6 +31,15 @@ public class Base : MonoBehaviour, IHarvesterTarget
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _reachRadius);
+    }
+
+    private void OnDisable()
+    {
+        foreach (var harvester in _harvesters)
+        {
+            harvester.CrystalUnloaded -= OnCrystalUnloaded;
+        }
+
     }
 
     public void Scan()
@@ -55,12 +66,12 @@ public class Base : MonoBehaviour, IHarvesterTarget
             {
                 Crystal targetCrystal = _freeCrystals[0];
                 harvester.Send(targetCrystal);
-                OnHarvesterSent(targetCrystal);
+                OnHarvesterSent(targetCrystal, harvester);
             }
         }
     }
 
-    public void OnHarvesterSent(Crystal crystal)
+    public void OnHarvesterSent(Crystal crystal, Harvester harvester)
     {
         _freeCrystals.Remove(crystal);
         _busyCrystals.Add(crystal);
@@ -69,5 +80,10 @@ public class Base : MonoBehaviour, IHarvesterTarget
     public void OnCrystalCollected(Crystal crystal)
     {
         _busyCrystals.Remove(crystal);
+    }
+
+    public void OnCrystalUnloaded(Harvester harvester)
+    {
+        _crystalGathered++;
     }
 }
