@@ -17,6 +17,8 @@ public class Harvester : MonoBehaviour
 
     public bool IsBusy => _isBusy;
 
+    public event Action<Harvester> CrystalUnloaded;
+
     private void Awake()
     {
         _collector = GetComponent<CrystalCollector>();
@@ -73,5 +75,6 @@ public class Harvester : MonoBehaviour
         _fullTrunk.SetActive(false);
         _isBusy = false;
         _target = null;
+        CrystalUnloaded?.Invoke(this);
     }
 }
