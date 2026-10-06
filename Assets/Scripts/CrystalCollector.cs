@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrystalCollector : MonoBehaviour
@@ -14,7 +13,7 @@ public class CrystalCollector : MonoBehaviour
     {
         _crystal = crystal;
         _collectionTime = crystal.CollectTime;
-        CrystalCollected += _crystal.OnCollected;
+        CrystalCollected += _crystal.NotifyCollected;
         StartCoroutine(CollectionCoroutine());
     }
 
@@ -29,7 +28,7 @@ public class CrystalCollector : MonoBehaviour
         }
 
         CrystalCollected?.Invoke(_crystal);
-        CrystalCollected -= _crystal.OnCollected;
+        CrystalCollected -= _crystal.NotifyCollected;
         _crystal = null;
     }
 }
