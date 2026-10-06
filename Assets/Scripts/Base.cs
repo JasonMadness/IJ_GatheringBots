@@ -8,7 +8,7 @@ public class Base : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _unloadTime = 2f;
 
     private readonly CrystalScanner _scanner = new();
-    private int _crystalGathered;
+    private readonly ResourceStorage _storage = new();
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
@@ -68,6 +68,6 @@ public class Base : MonoBehaviour, IHarvesterTarget
 
     public void OnCrystalUnloaded(Harvester harvester)
     {
-        _crystalGathered++;
+        _storage.AddCrystal();
     }
 }
