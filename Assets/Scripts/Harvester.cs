@@ -3,12 +3,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(HarvesterMover))]
 [RequireComponent(typeof(CrystalCollector))]
+[RequireComponent(typeof(CrystalUnloader))]
 public class Harvester : MonoBehaviour
 {
     [SerializeField] private GameObject _fullTrunk;
+
     private Base _homebase;
     private HarvesterMover _mover;
     private CrystalCollector _collector;
+    private CrystalUnloader _unloader;
     private IHarvesterTarget _target;
     private bool _isBusy = false;
 
@@ -17,6 +20,7 @@ public class Harvester : MonoBehaviour
     private void Awake()
     {
         _collector = GetComponent<CrystalCollector>();
+        _unloader = GetComponent<CrystalUnloader>();
         _mover = GetComponent<HarvesterMover>();
         _fullTrunk.SetActive(false);
     }
@@ -56,11 +60,18 @@ public class Harvester : MonoBehaviour
         _mover.TargetReached += OnReturnedToBase;
     }
 
-    public void OnReturnedToBase()
+    private void OnReturnedToBase()
     {
+        _mover.TargetReached -= OnReturnedToBase;
+        _unloader.Begin(_homebase.UnloadTime);
+        _unloader.Unloaded += OnUnloaded;
+    }
+
+    private void OnUnloaded()
+    {
+        _unloader.Unloaded -= OnUnloaded;
+        _fullTrunk.SetActive(false);
         _isBusy = false;
         _target = null;
-        _fullTrunk.SetActive(false);
-        _mover.TargetReached -= OnReturnedToBase;
     }
 }
