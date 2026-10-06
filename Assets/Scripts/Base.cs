@@ -5,12 +5,28 @@ using UnityEngine;
 public class Base : MonoBehaviour, IHarvesterTarget
 {
     [SerializeField] private List<Harvester> _harvesters;
-    [SerializeField] private float _reachRadius = 10f;
+    [SerializeField] private float _reachRadius = 20f;
     private List<Crystal> _freeCrystals = new();
     private List<Crystal> _busyCrystals = new();
 
     public float ReachRadius => _reachRadius;
     public Vector3 Position => transform.position;
+
+    private void Start()
+    {
+        foreach (var harvester in _harvesters)
+        {
+            harvester.SetHomeBase(this);
+        }
+
+        InvokeRepeating(nameof(Scan), 2f, 2f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, _reachRadius);
+    }
 
     public void Scan()
     {
@@ -18,12 +34,17 @@ public class Base : MonoBehaviour, IHarvesterTarget
 
         foreach (var crystal in crystals)
         {
-            if (_busyCrystals.Contains(crystal) == false)
+            if (_busyCrystals.Contains(crystal) == false && _freeCrystals.Contains(crystal) == false)
                 _freeCrystals.Add(crystal);
+        }
+
+        if (_freeCrystals.Count > 0)
+        {
+            SendHarvester();
         }
     }
 
-    public void SentHarvester()
+    public void SendHarvester()
     {
         foreach (var harvester in _harvesters)
         {
