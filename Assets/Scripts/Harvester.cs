@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Harvester : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Crystal _target;
+    private bool _isBusy = false;
 
-    // Update is called once per frame
-    void Update()
+    public bool IsBusy => _isBusy;
+
+    public void Sent(Crystal crystal)
     {
-        
+        _isBusy = true;
+        _target = crystal;
     }
 }
