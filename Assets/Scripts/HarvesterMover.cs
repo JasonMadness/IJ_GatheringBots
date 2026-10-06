@@ -15,6 +15,9 @@ public class HarvesterMover : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime * _speed);
+        if (_target == null)
+            return;
+
+        transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, Time.deltaTime * _speed);
     }
 }
