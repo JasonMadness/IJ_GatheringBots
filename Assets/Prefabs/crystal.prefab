@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b84452ceb0e604bb45a6caba14f88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectRadius: 4
+  _collectRadius: 5
   _collectTime: 3
