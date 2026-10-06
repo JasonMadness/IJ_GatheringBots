@@ -8,6 +8,7 @@ public class CameraMover : MonoBehaviour
     [Header("Границы движения камеры")]
     [SerializeField] private float _maxZ = 160f;
     [SerializeField] private float _minZ = -250f;
+    [SerializeField] private float _boundaryX = 200f;
 
     [SerializeField] private float _moveSpeed = 50f;
 
@@ -17,9 +18,11 @@ public class CameraMover : MonoBehaviour
         float verticalInput = Input.GetAxis(Vertical);
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * _moveSpeed * Time.deltaTime;
 
-        // Clamp the camera's Z position
-        transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z, _minZ, _maxZ));
-
         transform.Translate(movement, Space.World);
+
+        float clampedX = Mathf.Clamp(transform.position.x, -_boundaryX, _boundaryX);
+        float clampedZ = Mathf.Clamp(transform.position.z, _minZ, _maxZ);
+
+        transform.position = new Vector3(clampedX, transform.position.y, clampedZ);
     }
 }
