@@ -7,7 +7,9 @@ public class CrystalCollector : MonoBehaviour
 {
     [SerializeField] private float _complitionTime = 3f;
 
-    public event Action CrystalCollected;
+    private Crystal _crystal;
+
+    public event Action<Crystal> CrystalCollected;
 
     public void Begin()
     {
@@ -24,6 +26,6 @@ public class CrystalCollector : MonoBehaviour
             yield return null;
         }
 
-        CrystalCollected?.Invoke();
+        CrystalCollected?.Invoke(_crystal);
     }
 }
