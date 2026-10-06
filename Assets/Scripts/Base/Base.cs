@@ -8,7 +8,7 @@ public class Base : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _unloadTime = 2f;
 
     private readonly CrystalScanner _scanner = new();
-    private readonly ResourceStorage _storage = new();
+    private readonly CrystalStorage _storage = new();
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;

@@ -1,4 +1,4 @@
-﻿public class ResourceStorage
+﻿public class CrystalStorage
 {
     private int _crystals;
 
