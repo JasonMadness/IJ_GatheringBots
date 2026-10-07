@@ -8,7 +8,7 @@ public class Harvester : MonoBehaviour
 {
     [SerializeField] private GameObject _fullTrunk;
 
-    private Base _homebase;
+    private HomeBase _homebase;
     private HarvesterMover _mover;
     private CrystalCollector _collector;
     private CrystalUnloader _unloader;
@@ -27,7 +27,7 @@ public class Harvester : MonoBehaviour
         _fullTrunk.SetActive(false);
     }
 
-    public void SetHomeBase(Base homebase)
+    public void SetHomeBase(HomeBase homebase)
     {
         _homebase = homebase;
     }

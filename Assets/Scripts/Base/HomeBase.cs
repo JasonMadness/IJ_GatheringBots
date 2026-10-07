@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Base : MonoBehaviour, IHarvesterTarget
+public class HomeBase : MonoBehaviour, IHarvesterTarget
 {
     [SerializeField] private List<Harvester> _harvesters;
     [SerializeField] private float _reachRadius = 20f;
