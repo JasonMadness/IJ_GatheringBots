@@ -1,30 +1,67 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CrystalScanner : MonoBehaviour
 {
-    private List<Crystal> _free;
-    private List<Crystal> _busy;
+    [SerializeField] private float _scanRadius = 200f;
+    [SerializeField] private float _scanInterval = 2f;
+    [SerializeField] private LayerMask _crystalLayer;
+
+    private readonly Collider[] _buffer = new Collider[64];
+    private readonly List<Crystal> _free = new();
+    private readonly List<Crystal> _busy = new();
+
+    private Coroutine _scanRoutine;
 
     public int FreeCount => _free.Count;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _free = new();
-        _busy = new();
+        _scanRoutine = StartCoroutine(ScanRoutine());
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        InvokeRepeating(nameof(Refresh), 2f, 2f);
+        if (_scanRoutine != null)
+        {
+            StopCoroutine(_scanRoutine);
+            _scanRoutine = null;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _scanRadius);
+    }
+
+    private IEnumerator ScanRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(_scanInterval);
+        yield return wait;
+
+        while (true)
+        {
+            Refresh();
+            yield return wait;
+        }
     }
 
     public void Refresh()
     {
-        Crystal[] found = Object.FindObjectsOfType<Crystal>();
+        int count = Physics.OverlapSphereNonAlloc(
+            transform.position,
+            _scanRadius,
+            _buffer,
+            _crystalLayer
+        );
 
-        foreach (var crystal in found)
+        for (int i = 0; i < count; i++)
         {
+            if (_buffer[i].TryGetComponent(out Crystal crystal) == false)
+                continue;
+
             if (_free.Contains(crystal) || _busy.Contains(crystal))
                 continue;
 
