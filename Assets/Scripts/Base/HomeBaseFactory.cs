@@ -15,7 +15,7 @@ public class HomeBaseFactory : MonoBehaviour
 
     public HomeBase Build(Vector3 position)
     {
-        var homebase = Instantiate(_basePrefab, position, Quaternion.identity);
+        var homebase = Instantiate(_basePrefab, position, _basePrefab.transform.rotation);
         homebase.Initialize(_crystalScanner);
         return homebase;
     }
