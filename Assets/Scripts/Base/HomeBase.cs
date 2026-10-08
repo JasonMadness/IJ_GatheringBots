@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,26 +10,35 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     private CrystalScanner _scanner;
     private readonly CrystalStorage _storage = new();
+    private Coroutine _scanningCoroutine;
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
     public Vector3 Position => transform.position;
 
-    private void Start()
+    private void Awake()
     {
         foreach (var harvester in _harvesters)
         {
             harvester.SetHomeBase(this);
-            harvester.CrystalUnloaded += OnCrystalUnloaded;
         }
+    }
+
+    private void OnEnable()
+    {
+        foreach (var harvester in _harvesters)
+            harvester.CrystalUnloaded += OnCrystalUnloaded;
+
+        if (_scanner != null)
+            _scanningCoroutine = StartCoroutine(StartScanning());
     }
 
     private void OnDisable()
     {
         foreach (var harvester in _harvesters)
-        {
             harvester.CrystalUnloaded -= OnCrystalUnloaded;
-        }
+
+        StopCoroutine(_scanningCoroutine);
     }
 
     private void OnDrawGizmosSelected()
@@ -40,9 +50,24 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     public void Initialize(CrystalScanner scanner)
     {
         _scanner = scanner;
+
+        if (_scanningCoroutine == null)
+            _scanningCoroutine = StartCoroutine(StartScanning());
     }
 
-    public void Scan()
+    private IEnumerator StartScanning()
+    {
+        float delay = 2f;
+        yield return new WaitForSeconds(delay);
+
+        while (isActiveAndEnabled)
+        {
+            Scan();
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    private void Scan()
     {
         _scanner.Refresh();
 
