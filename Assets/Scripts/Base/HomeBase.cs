@@ -7,7 +7,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _reachRadius = 20f;
     [SerializeField] private float _unloadTime = 2f;
 
-    private readonly CrystalScanner _scanner = new();
+    private CrystalScanner _scanner;
     private readonly CrystalStorage _storage = new();
 
     public float ReachRadius => _reachRadius;
@@ -21,8 +21,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
             harvester.SetHomeBase(this);
             harvester.CrystalUnloaded += OnCrystalUnloaded;
         }
-
-        InvokeRepeating(nameof(Scan), 2f, 2f);
     }
 
     private void OnDisable()
@@ -37,6 +35,11 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _reachRadius);
+    }
+
+    public void Initialize(CrystalScanner scanner)
+    {
+        _scanner = scanner;
     }
 
     public void Scan()
