@@ -1,12 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrystalScanner
+public class CrystalScanner : MonoBehaviour
 {
-    private readonly List<Crystal> _free = new();
-    private readonly List<Crystal> _busy = new();
+    private List<Crystal> _free;
+    private List<Crystal> _busy;
 
     public int FreeCount => _free.Count;
+
+    private void Awake()
+    {
+        _free = new();
+        _busy = new();
+    }
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(Refresh), 2f, 2f);
+    }
 
     public void Refresh()
     {
