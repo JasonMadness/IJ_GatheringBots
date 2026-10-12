@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,18 +17,13 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     private int _harvesterCost;
     private int _baseCost;
     private bool _needToBuildBase;
+    private Harvester _baseBuilderHarvester;
+
+    public event Action<HomeBase, Vector3> FlagReached;
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
     public Vector3 Position => transform.position;
-
-    public event Action<HomeBase, Vector3> FlagReached;
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, _reachRadius);
-    }
 
     public void Initialize(CrystalScanner scanner, HarvesterFactory harvesterFactory, int startingCrystalAmount, int baseCost)
     {
@@ -53,6 +47,9 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     public void SetFlag(Vector3 position)
     {
+        if (_baseBuilderHarvester != null)
+            return;
+
         _flag.transform.position = position;
         _flag.gameObject.SetActive(true);
         _needToBuildBase = true;
@@ -72,10 +69,33 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         UpdateTarget();
     }
 
+    public void OnHarvesterReachedFlag(Harvester harvester)
+    {
+        FlagReached?.Invoke(this, _flag.transform.position);
+    }
+
+    public void OnNewBaseBuilt(HomeBase newBase)
+    {
+        _dispatcher.Unregister(_baseBuilderHarvester);
+        _baseBuilderHarvester.CrystalUnloaded -= OnCrystalUnloaded;
+        _baseBuilderHarvester.SetIdle();
+        newBase.RegisterHarvester(_baseBuilderHarvester);
+        _baseBuilderHarvester = null;
+        ClearFlag();
+    }
+
+    public void RegisterHarvester(Harvester harvester)
+    {
+        _dispatcher.RegisterHarvester(harvester);
+        harvester.SetHomeBase(this);
+        harvester.transform.SetParent(transform);
+        harvester.CrystalUnloaded += OnCrystalUnloaded;
+    }
+
     private void UpdateTarget()
     {
         if (_needToBuildBase)
-            TryBuildBase(_flag.transform.position);
+            TryBuildBase();
         else
             TryBuildHarvester();
     }
@@ -89,7 +109,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         RegisterHarvester(newHarvester);
     }
 
-    private void TryBuildBase(Vector3 position)
+    private void TryBuildBase()
     {
         if (_storage.Crystals < _baseCost)
             return;
@@ -104,18 +124,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
         _storage.TrySpend(_baseCost);
         harvester.Send(_flag);
-    }
-
-    private void RegisterHarvester(Harvester harvester)
-    {
-        _dispatcher.RegisterHarvester(harvester);
-        harvester.SetHomeBase(this);
-        harvester.transform.SetParent(transform);
-        harvester.CrystalUnloaded += OnCrystalUnloaded;
-    }
-
-    public void OnHarvesterReachedFlag(Harvester harvester)
-    {
-        FlagReached?.Invoke(this, _flag.transform.position);
+        _baseBuilderHarvester = harvester;
     }
 }
