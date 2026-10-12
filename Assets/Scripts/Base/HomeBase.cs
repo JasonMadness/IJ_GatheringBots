@@ -9,30 +9,15 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _unloadTime = 2f;
 
     private CrystalScanner _scanner;
-    private List<Harvester> _harvesters = new();
     private HarvesterFactory _harvesterFactory;
+    private HarvesterDispatcher _dispatcher;
     private readonly CrystalStorage _storage = new();
-    private Coroutine _scanningCoroutine;
 
     private int _harvesterCost;
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
     public Vector3 Position => transform.position;
-
-    private void OnEnable()
-    {
-        if (_scanner != null)
-            _scanningCoroutine = StartCoroutine(StartScanning());
-    }
-
-    private void OnDisable()
-    {
-        foreach (var harvester in _harvesters)
-            harvester.CrystalUnloaded -= OnCrystalUnloaded;
-
-        StopCoroutine(_scanningCoroutine);
-    }
 
     private void OnDrawGizmosSelected()
     {
@@ -45,9 +30,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         _scanner = scanner;
         _harvesterFactory = harvesterFactory;
 
-        if (_scanningCoroutine == null)
-            _scanningCoroutine = StartCoroutine(StartScanning());
-
         _harvesterCost = _harvesterFactory.HarvesterCost;
 
         for (int i = 0; i < startingCrystalAmount; i++)
@@ -55,40 +37,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
         while (_storage.Crystals >= _harvesterCost)
             TryBuildHarvester();
-    }
-
-    private IEnumerator StartScanning()
-    {
-        float delay = 2f;
-        yield return new WaitForSeconds(delay);
-
-        while (isActiveAndEnabled)
-        {
-            Scan();
-            yield return new WaitForSeconds(delay);
-        }
-    }
-
-    private void Scan()
-    {
-        _scanner.Refresh();
-
-        if (_scanner.FreeCount > 0)
-            SendHarvester();
-    }
-
-    public void SendHarvester()
-    {
-        foreach (var harvester in _harvesters)
-        {
-            if (harvester.IsBusy)
-                continue;
-
-            if (_scanner.TryGetFree(out Crystal crystal) == false)
-                break;
-
-            harvester.Send(crystal);
-        }
     }
 
     public void OnCrystalCollected(Crystal crystal)
@@ -113,8 +61,9 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     private void RegisterHarvester(Harvester harvester)
     {
-        _harvesters.Add(harvester);
+        _dispatcher.RegisterHarvester(harvester);
         harvester.SetHomeBase(this);
         harvester.CrystalUnloaded += OnCrystalUnloaded;
+        _scanner.FreeCrystalFound += _dispatcher.OnFreeCrystalFound;
     }
 }
