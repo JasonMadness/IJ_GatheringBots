@@ -221,6 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7099311676234718806}
+  - component: {fileID: 3492665622642271019}
   m_Layer: 8
   m_Name: Flag
   m_TagString: Untagged
@@ -245,6 +246,18 @@ Transform:
   - {fileID: 8791210898326480676}
   m_Father: {fileID: 3754069730527128318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3492665622642271019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6878174747792477249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdd6159c7eb037140a113dc40636dbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7075651446033816257
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dispatcher: {fileID: 8761837781036197106}
   _spawnPoint: {fileID: 9211303879464065726}
-  _flag: {fileID: 6878174747792477249}
+  _flag: {fileID: 3492665622642271019}
   _reachRadius: 20
   _unloadTime: 2
 --- !u!65 &799248953880596248
