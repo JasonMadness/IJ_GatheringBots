@@ -6,7 +6,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 {
     [SerializeField] private HarvesterDispatcher _dispatcher;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private GameObject _flag;
+    [SerializeField] private Flag _flag;
     [SerializeField] private float _reachRadius = 20f;
     [SerializeField] private float _unloadTime = 2f;
 
@@ -48,12 +48,12 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     public void SetFlag(Vector3 position)
     {
         _flag.transform.position = position;
-        _flag.SetActive(true);
+        _flag.gameObject.SetActive(true);
     }
 
     public void ClearFlag()
     {
-        _flag.SetActive(false);
+        _flag.gameObject.SetActive(false);
     }
 
     public void OnCrystalUnloaded(Harvester harvester)
