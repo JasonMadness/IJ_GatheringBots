@@ -17,7 +17,7 @@ public class CrystalScanner : MonoBehaviour
 
     public int FreeCount => _free.Count;
 
-    public event Action<Crystal> FreeCrystalFound;
+    public event Action FreeCrystalFound;
 
     private void OnEnable()
     {
@@ -47,8 +47,18 @@ public class CrystalScanner : MonoBehaviour
         while (true)
         {
             Refresh();
+
+            if (_free.Count > 0)
+                FreeCrystalFound?.Invoke();
+
             yield return wait;
         }
+    }
+
+    public void OnFreeCrystalTargetObtained(Crystal crystal)
+    {
+        _free.Remove(crystal);
+        _busy.Add(crystal);
     }
 
     public void Refresh()
@@ -69,7 +79,6 @@ public class CrystalScanner : MonoBehaviour
                 continue;
 
             _free.Add(crystal);
-            FreeCrystalFound?.Invoke(crystal);
         }
     }
 
