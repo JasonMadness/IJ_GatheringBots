@@ -17,7 +17,6 @@ public class Harvester : MonoBehaviour
 
     public bool IsBusy => _isBusy;
 
-    public event Action<Crystal> FreeCrystalObtained;
     public event Action<Harvester> CrystalUnloaded;
 
     private void Awake()
@@ -39,9 +38,6 @@ public class Harvester : MonoBehaviour
         _target = target;
         _mover.SetTarget(_target);
         _mover.TargetReached += OnTargetReached;
-
-        if (_target is Crystal crystal)
-            FreeCrystalObtained?.Invoke(crystal);
     }
 
     private void OnTargetReached()
