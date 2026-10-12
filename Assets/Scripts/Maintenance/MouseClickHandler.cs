@@ -5,10 +5,10 @@ public class MouseClickHandler : MonoBehaviour
 {
     [SerializeField] private LayerMask _clickableLayers;
 
+    private Camera _camera;
+
     public event Action<Vector3, GameObject> LeftClicked;
     public event Action<Vector3, GameObject> RightClicked;
-
-    private Camera _camera;
 
     private void Awake()
     {
