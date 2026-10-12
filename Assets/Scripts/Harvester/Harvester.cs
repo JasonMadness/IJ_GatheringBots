@@ -43,8 +43,16 @@ public class Harvester : MonoBehaviour
     private void OnTargetReached()
     {
         _mover.TargetReached -= OnTargetReached;
-        _collector.Begin(_target as Crystal);
-        _collector.CrystalCollected += OnCrystalCollected;
+
+        if (_target is Crystal crystal)
+        {
+            _collector.Begin(crystal);
+            _collector.CrystalCollected += OnCrystalCollected;
+        }
+        else if (_target is Flag)
+        {
+            _homebase.OnHarvesterReachedFlag(this);
+        }
     }
 
     private void OnCrystalCollected(Crystal crystal)
