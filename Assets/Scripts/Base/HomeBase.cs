@@ -23,6 +23,8 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     public float UnloadTime => _unloadTime;
     public Vector3 Position => transform.position;
 
+    public event Action<HomeBase, Vector3> FlagReached;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -112,8 +114,8 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         harvester.CrystalUnloaded += OnCrystalUnloaded;
     }
 
-    internal void OnHarvesterReachedFlag(Harvester harvester)
+    public void OnHarvesterReachedFlag(Harvester harvester)
     {
-        throw new NotImplementedException();
+        FlagReached?.Invoke(this, _flag.transform.position);
     }
 }
