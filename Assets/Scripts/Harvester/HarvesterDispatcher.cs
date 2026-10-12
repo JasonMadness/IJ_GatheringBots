@@ -7,6 +7,11 @@ public class HarvesterDispatcher : MonoBehaviour
     private List<Harvester> _harvesters = new();
     private CrystalScanner _scanner;
 
+    private void OnDisable()
+    {
+        _scanner.FreeCrystalFound -= OnFreeCrystalFound;
+    }
+
     public void Initialize(CrystalScanner scanner)
     {
         _scanner = scanner;
@@ -16,21 +21,23 @@ public class HarvesterDispatcher : MonoBehaviour
     public void RegisterHarvester(Harvester harvester)
     {
         _harvesters.Add(harvester);
-        harvester.FreeCrystalObtained += _scanner.OnFreeCrystalTargetObtained;
     }
 
-    public void OnFreeCrystalFound(List<Crystal> crystals)
+    public void OnFreeCrystalFound()
     {
-        Harvester freeHarvester = GetFreeHarvester();
-
-        if (freeHarvester == null)
-            return;
-
-        foreach (var crystal in crystals)
+        while (_scanner.TryGetFree(out Crystal crystal))
         {
+            Harvester freeHarvester = GetFreeHarvester();
+
+            if (freeHarvester == null)
+            {
+                _scanner.ReleaseFreeCrystal(crystal);
+                break;
+            }
+
             freeHarvester.Send(crystal);
         }
-    }
+    }    
 
     private Harvester GetFreeHarvester()
     {
