@@ -40,9 +40,9 @@ public class HarvesterDispatcher : MonoBehaviour
 
             freeHarvester.Send(crystal);
         }
-    }    
+    }
 
-    private Harvester GetFreeHarvester()
+    public Harvester GetFreeHarvester()
     {
         foreach (var harvester in _harvesters)
         {
