@@ -9,6 +9,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     [SerializeField] private float _unloadTime = 2f;
 
     private CrystalScanner _scanner;
+    private HarvesterFactory _harvesterFactory;
     private readonly CrystalStorage _storage = new();
     private Coroutine _scanningCoroutine;
 
@@ -47,9 +48,10 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         Gizmos.DrawWireSphere(transform.position, _reachRadius);
     }
 
-    public void Initialize(CrystalScanner scanner)
+    public void Initialize(CrystalScanner scanner, HarvesterFactory harvesterFactory)
     {
         _scanner = scanner;
+        _harvesterFactory = harvesterFactory;
 
         if (_scanningCoroutine == null)
             _scanningCoroutine = StartCoroutine(StartScanning());
