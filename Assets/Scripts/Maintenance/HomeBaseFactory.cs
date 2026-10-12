@@ -7,6 +7,8 @@ public class HomeBaseFactory : MonoBehaviour
     [SerializeField] private HarvesterFactory _harvesterFactory;
     [SerializeField] private Vector3 _defaultBasePosition;
 
+    private int _startingCrystalAmount = 9;
+
     public HomeBase DefaultBase { get; private set; }
 
     private void Start()
@@ -14,15 +16,15 @@ public class HomeBaseFactory : MonoBehaviour
         BuildDefaultBase();
     }
 
-    public HomeBase Build(Vector3 position)
+    public HomeBase Build(Vector3 position, int startingCrystalAmount)
     {
         var homebase = Instantiate(_basePrefab, position, _basePrefab.transform.rotation);
-        homebase.Initialize(_crystalScanner, _harvesterFactory);
+        homebase.Initialize(_crystalScanner, _harvesterFactory, startingCrystalAmount);
         return homebase;
     }
 
     private void BuildDefaultBase()
     {
-        DefaultBase = Build(_defaultBasePosition);
+        DefaultBase = Build(_defaultBasePosition, _startingCrystalAmount);
     }
 }
