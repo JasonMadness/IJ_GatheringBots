@@ -28,11 +28,7 @@ public class FlagPlacer : MonoBehaviour
             return;
         }
 
-        if (_selectedBase != null)
-        {
-            _selectedBase.ClearFlag();
-            _selectedBase = null;
-        }
+        _selectedBase = null;
     }
 
     private void OnRightClick(Vector3 point, GameObject target)
@@ -40,14 +36,23 @@ public class FlagPlacer : MonoBehaviour
         if (_selectedBase == null)
             return;
 
-        if (target.TryGetComponent(out HomeBase _))
-            return;
-
         if (IsInsideBounds(point) == false)
             return;
 
+        if (target.TryGetComponent(out HomeBase homeBase))
+        {
+            if (homeBase != _selectedBase)
+            {
+                return;
+            }
+            else
+            {
+                _selectedBase.ClearFlag();
+                return;
+            }
+        }
+
         _selectedBase.SetFlag(point);
-    }
 
     private bool IsInsideBounds(Vector3 point)
     {
