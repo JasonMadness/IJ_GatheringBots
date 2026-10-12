@@ -15,9 +15,9 @@ public class CrystalScanner : MonoBehaviour
 
     private Coroutine _scanRoutine;
 
-    public int FreeCount => _free.Count;
-
     public event Action FreeCrystalFound;
+
+    public int FreeCount => _free.Count;
 
     private void OnEnable()
     {
@@ -31,12 +31,6 @@ public class CrystalScanner : MonoBehaviour
             StopCoroutine(_scanRoutine);
             _scanRoutine = null;
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _scanRadius);
     }
 
     private IEnumerator ScanRoutine()
