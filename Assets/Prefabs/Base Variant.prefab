@@ -65,6 +65,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3754069730527128318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8059838102965241579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8628515944117257194}
+  - component: {fileID: 8761837781036197106}
+  m_Layer: 0
+  m_Name: HarvesterDispatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8628515944117257194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059838102965241579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3754069730527128318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8761837781036197106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059838102965241579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba604cf4cc57bf34dac0f5d238094a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1543951886955576863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -192,6 +236,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2297605295393742116, guid: f253ddfd56c00134494cabac0afd89d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9211303879464065726}
+    - targetCorrespondingSourceObject: {fileID: 2297605295393742116, guid: f253ddfd56c00134494cabac0afd89d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8628515944117257194}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1488839329201538974, guid: f253ddfd56c00134494cabac0afd89d2, type: 3}
       insertIndex: -1
@@ -219,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7151b4ebde98ef141acaedeebd208f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dispatcher: {fileID: 8761837781036197106}
   _spawnPoint: {fileID: 9211303879464065726}
   _reachRadius: 20
   _unloadTime: 2
