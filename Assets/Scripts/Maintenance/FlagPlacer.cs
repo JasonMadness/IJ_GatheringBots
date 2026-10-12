@@ -3,10 +3,10 @@ using UnityEngine;
 public class FlagPlacer : MonoBehaviour
 {
     [SerializeField] private MouseClickHandler _mouse;
-    [SerializeField] private Vector2 _minBounds;
-    [SerializeField] private Vector2 _maxBounds;
+    [SerializeField] private Renderer _groundRenderer;
 
     private HomeBase _selectedBase;
+    private Bounds _groundBounds;
 
     private void OnEnable()
     {
@@ -18,6 +18,11 @@ public class FlagPlacer : MonoBehaviour
     {
         _mouse.LeftClicked -= OnLeftClick;
         _mouse.RightClicked -= OnRightClick;
+    }
+
+    private void Awake()
+    {
+        _groundBounds = _groundRenderer.bounds;
     }
 
     private void OnLeftClick(Vector3 point, GameObject target)
@@ -53,10 +58,11 @@ public class FlagPlacer : MonoBehaviour
         }
 
         _selectedBase.SetFlag(point);
+    }
 
     private bool IsInsideBounds(Vector3 point)
     {
-        return point.x >= _minBounds.x && point.x <= _maxBounds.x
-            && point.z >= _minBounds.y && point.z <= _maxBounds.y;
+        return point.x >= _groundBounds.min.x && point.x <= _groundBounds.max.x
+            && point.z >= _groundBounds.min.z && point.z <= _groundBounds.max.z;
     }
 }
