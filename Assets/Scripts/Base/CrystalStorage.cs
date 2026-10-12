@@ -8,4 +8,13 @@
     {
         _crystals++;
     }
+
+    public bool TrySpend(int amount)
+    {
+        if (_crystals < amount)
+            return false;
+
+        _crystals -= amount;
+        return true;
+    }
 }
