@@ -7,6 +7,7 @@ public class HomeBaseFactory : MonoBehaviour
     [SerializeField] private HarvesterFactory _harvesterFactory;
     [SerializeField] private Vector3 _defaultBasePosition;
 
+    private int _newBaseCost = 5;
     private int _startingCrystalAmount = 9;
 
     public HomeBase DefaultBase { get; private set; }
