@@ -55,6 +55,12 @@ public class CrystalScanner : MonoBehaviour
         }
     }
 
+    public void ReleaseFreeCrystal(Crystal crystal)
+    {
+        _free.Add(crystal);
+        _busy.Remove(crystal);
+    }
+
     public void OnFreeCrystalTargetObtained(Crystal crystal)
     {
         _free.Remove(crystal);
