@@ -420,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dispatcher: {fileID: 8761837781036197106}
   _spawnPoint: {fileID: 9211303879464065726}
-  _flagPrefab: {fileID: 6878174747792477249}
+  _flag: {fileID: 6878174747792477249}
   _reachRadius: 20
   _unloadTime: 2
 --- !u!65 &799248953880596248
