@@ -4,6 +4,7 @@ public class HomeBaseFactory : MonoBehaviour
 {
     [SerializeField] private HomeBase _basePrefab;
     [SerializeField] private CrystalScanner _crystalScanner;
+    [SerializeField] private HarvesterFactory _harvesterFactory;
     [SerializeField] private Vector3 _defaultBasePosition;
 
     public HomeBase DefaultBase { get; private set; }
@@ -16,7 +17,7 @@ public class HomeBaseFactory : MonoBehaviour
     public HomeBase Build(Vector3 position)
     {
         var homebase = Instantiate(_basePrefab, position, _basePrefab.transform.rotation);
-        homebase.Initialize(_crystalScanner);
+        homebase.Initialize(_crystalScanner, _harvesterFactory);
         return homebase;
     }
 
