@@ -16,10 +16,4 @@ public class Crystal : MonoBehaviour, IHarvesterTarget
     {
         Collected?.Invoke(crystal);
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _collectRadius);
-    }
 }
