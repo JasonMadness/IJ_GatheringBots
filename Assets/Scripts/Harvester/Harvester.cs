@@ -15,9 +15,9 @@ public class Harvester : MonoBehaviour
     private IHarvesterTarget _target;
     private bool _isBusy = false;
 
-    public bool IsBusy => _isBusy;
-
     public event Action<Harvester> CrystalUnloaded;
+
+    public bool IsBusy => _isBusy;
 
     private void Awake()
     {
