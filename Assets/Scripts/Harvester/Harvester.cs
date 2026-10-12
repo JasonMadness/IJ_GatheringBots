@@ -89,5 +89,6 @@ public class Harvester : MonoBehaviour
     public void SetIdle()
     {
         _isBusy = false;
+        _target = null;
     }
 }
