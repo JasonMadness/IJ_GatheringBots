@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +14,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     private readonly CrystalStorage _storage = new();
     private Coroutine _scanningCoroutine;
 
-    private int _startingCrystalAmount;
     private int _harvesterCost;
 
     public float ReachRadius => _reachRadius;
@@ -24,9 +22,6 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     private void OnEnable()
     {
-        foreach (var harvester in _harvesters)
-            harvester.CrystalUnloaded += OnCrystalUnloaded;
-
         if (_scanner != null)
             _scanningCoroutine = StartCoroutine(StartScanning());
     }
@@ -49,14 +44,13 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     {
         _scanner = scanner;
         _harvesterFactory = harvesterFactory;
-        _startingCrystalAmount = startingCrystalAmount;
 
         if (_scanningCoroutine == null)
             _scanningCoroutine = StartCoroutine(StartScanning());
 
         _harvesterCost = _harvesterFactory.HarvesterCost;
 
-        for (int i = 0; i < _startingCrystalAmount; i++)
+        for (int i = 0; i < startingCrystalAmount; i++)
             _storage.AddCrystal();
 
         while (_storage.Crystals >= _harvesterCost)
