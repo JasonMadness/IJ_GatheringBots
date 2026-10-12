@@ -9,7 +9,8 @@ public class HarvesterDispatcher : MonoBehaviour
 
     private void OnDisable()
     {
-        _scanner.FreeCrystalFound -= OnFreeCrystalFound;
+        if (_scanner != null)
+            _scanner.FreeCrystalFound -= OnFreeCrystalFound;
     }
 
     public void Initialize(CrystalScanner scanner)
