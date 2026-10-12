@@ -21,7 +21,14 @@ public class HomeBaseFactory : MonoBehaviour
     {
         var homebase = Instantiate(_basePrefab, position, _basePrefab.transform.rotation);
         homebase.Initialize(_crystalScanner, _harvesterFactory, startingCrystalAmount, _newBaseCost);
+        homebase.FlagReached += OnBaseFlagReached;
         return homebase;
+    }
+
+    private void OnBaseFlagReached(HomeBase oldBase, Vector3 position)
+    {
+        HomeBase newBase = Build(position, 0);
+        oldBase.OnNewBaseBuilt(newBase);
     }
 
     private void BuildDefaultBase()
