@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class CrystalScanner : MonoBehaviour
     private Coroutine _scanRoutine;
 
     public int FreeCount => _free.Count;
+
+    public event Action<Crystal> FreeCrystalFound;
 
     private void OnEnable()
     {
@@ -66,6 +69,7 @@ public class CrystalScanner : MonoBehaviour
                 continue;
 
             _free.Add(crystal);
+            FreeCrystalFound?.Invoke(crystal);
         }
     }
 
@@ -78,7 +82,7 @@ public class CrystalScanner : MonoBehaviour
         }
 
         crystal = _free[0];
-        _free.RemoveAt(0);
+        _free.RemoveAt(0);        
         _busy.Add(crystal);
         return true;
     }
