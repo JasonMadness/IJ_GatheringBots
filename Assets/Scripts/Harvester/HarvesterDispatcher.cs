@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class HarvesterDispatcher : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private List<Harvester> _harvesters = new();
+
+    public void RegisterHarvester(Harvester harvester)
     {
-        
+        _harvesters.Add(harvester);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnFreeCrystalFound(Crystal crystal)
     {
-        
+        foreach (var harvester in _harvesters)
+        {
+            if (harvester.IsBusy == false)
+            {
+                harvester.Send(crystal);
+                return;
+            }
+        }
     }
 }
