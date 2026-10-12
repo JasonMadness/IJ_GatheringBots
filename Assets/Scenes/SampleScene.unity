@@ -1386,8 +1386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mouse: {fileID: 1941277469}
-  _minBounds: {x: 0, y: 0}
-  _maxBounds: {x: 0, y: 0}
+  _groundRenderer: {fileID: 1254406807}
 --- !u!1 &2119803579
 GameObject:
   m_ObjectHideFlags: 0
