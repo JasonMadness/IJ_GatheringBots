@@ -28,8 +28,8 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     public void Initialize(CrystalScanner scanner, HarvesterFactory harvesterFactory, int startingCrystalAmount)
     {
         _scanner = scanner;
+        _dispatcher.Initialize(_scanner);
         _harvesterFactory = harvesterFactory;
-
         _harvesterCost = _harvesterFactory.HarvesterCost;
 
         for (int i = 0; i < startingCrystalAmount; i++)
@@ -63,7 +63,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     {
         _dispatcher.RegisterHarvester(harvester);
         harvester.SetHomeBase(this);
+        harvester.transform.SetParent(transform);
         harvester.CrystalUnloaded += OnCrystalUnloaded;
-        _scanner.FreeCrystalFound += _dispatcher.OnFreeCrystalFound;
     }
 }
