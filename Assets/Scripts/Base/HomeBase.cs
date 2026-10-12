@@ -15,6 +15,8 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     private readonly CrystalStorage _storage = new();
 
     private int _harvesterCost;
+    private int _baseCost;
+    private bool _needToBuildBase;
 
     public float ReachRadius => _reachRadius;
     public float UnloadTime => _unloadTime;
@@ -49,17 +51,29 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     {
         _flag.transform.position = position;
         _flag.gameObject.SetActive(true);
+        _needToBuildBase = true;
+        UpdateTarget();
     }
 
     public void ClearFlag()
     {
         _flag.gameObject.SetActive(false);
+        _needToBuildBase = false;
+        UpdateTarget();
     }
 
     public void OnCrystalUnloaded(Harvester harvester)
     {
         _storage.AddCrystal();
         TryBuildHarvester();
+    }
+
+    private void UpdateTarget()
+    {
+        if (_needToBuildBase)
+            TryBuildBase(_flag.transform.position);
+        else
+            TryBuildHarvester();
     }
 
     private void TryBuildHarvester()
@@ -69,6 +83,15 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
         Harvester newHarvester = _harvesterFactory.Create(_spawnPoint);
         RegisterHarvester(newHarvester);
+    }
+
+    private void TryBuildBase(Vector3 position)
+    {
+        if (_storage.TrySpend(_baseCost) == false)
+            return;
+
+        // Если кристаллов достаточно, то отсылаем Сборщика к флагу
+        // Если сборщик доехал до флага, то строим базу и снимаем флаг
     }
 
     private void RegisterHarvester(Harvester harvester)
