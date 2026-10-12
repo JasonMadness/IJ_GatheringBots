@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class HomeBase : MonoBehaviour, IHarvesterTarget
 {
+    [SerializeField] private HarvesterDispatcher _dispatcher;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _reachRadius = 20f;
     [SerializeField] private float _unloadTime = 2f;
 
     private CrystalScanner _scanner;
     private HarvesterFactory _harvesterFactory;
-    private HarvesterDispatcher _dispatcher;
     private readonly CrystalStorage _storage = new();
 
     private int _harvesterCost;
