@@ -1260,6 +1260,7 @@ Transform:
   - {fileID: 736166786}
   - {fileID: 903506653}
   - {fileID: 433897487}
+  - {fileID: 1941277468}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1750938724
@@ -1324,6 +1325,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1407049180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1941277467
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1941277468}
+  - component: {fileID: 1941277469}
+  - component: {fileID: 1941277470}
+  m_Layer: 0
+  m_Name: FlagSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1941277468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941277467}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1712601465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1941277469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941277467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf66fc6e06510446a2459f49d70de5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clickableLayers:
+    serializedVersion: 2
+    m_Bits: 384
+--- !u!114 &1941277470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941277467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d60b1f4f0bb7449a9be72433da8be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mouse: {fileID: 1941277469}
+  _minBounds: {x: 0, y: 0}
+  _maxBounds: {x: 0, y: 0}
 --- !u!1 &2119803579
 GameObject:
   m_ObjectHideFlags: 0
