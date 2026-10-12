@@ -85,4 +85,9 @@ public class Harvester : MonoBehaviour
         _target = null;
         CrystalUnloaded?.Invoke(this);
     }
+
+    public void SetIdle()
+    {
+        _isBusy = false;
+    }
 }
