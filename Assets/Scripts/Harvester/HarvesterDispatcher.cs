@@ -52,4 +52,9 @@ public class HarvesterDispatcher : MonoBehaviour
 
         return null;
     }
+
+    public void Unregister(Harvester baseBuilderHarvester)
+    {
+        _harvesters.Remove(baseBuilderHarvester);
+    }
 }
