@@ -89,14 +89,19 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     private void TryBuildBase(Vector3 position)
     {
-        if (_dispatcher.Count < 2 || _dispatcher.GetFreeHarvester() == null)
-            return;
-
         if (_storage.Crystals < _baseCost)
             return;
 
-        // Если кристаллов достаточно, то отсылаем Сборщика к флагу
-        // Если сборщик доехал до флага, то строим базу и снимаем флаг
+        if (_dispatcher.Count < 2)
+            return;
+
+        Harvester harvester = _dispatcher.GetFreeHarvester();
+
+        if (harvester == null)
+            return;
+
+        _storage.TrySpend(_baseCost);
+        harvester.Send(_flag);
     }
 
     private void RegisterHarvester(Harvester harvester)
