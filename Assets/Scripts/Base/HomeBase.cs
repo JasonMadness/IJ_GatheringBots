@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,12 +29,13 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         Gizmos.DrawWireSphere(transform.position, _reachRadius);
     }
 
-    public void Initialize(CrystalScanner scanner, HarvesterFactory harvesterFactory, int startingCrystalAmount)
+    public void Initialize(CrystalScanner scanner, HarvesterFactory harvesterFactory, int startingCrystalAmount, int baseCost)
     {
         _scanner = scanner;
         _dispatcher.Initialize(_scanner);
         _harvesterFactory = harvesterFactory;
         _harvesterCost = _harvesterFactory.HarvesterCost;
+        _baseCost = baseCost;
 
         for (int i = 0; i < startingCrystalAmount; i++)
             _storage.AddCrystal();
@@ -65,7 +67,7 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
     public void OnCrystalUnloaded(Harvester harvester)
     {
         _storage.AddCrystal();
-        TryBuildHarvester();
+        UpdateTarget();
     }
 
     private void UpdateTarget()
@@ -87,7 +89,10 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
 
     private void TryBuildBase(Vector3 position)
     {
-        if (_storage.TrySpend(_baseCost) == false)
+        if (_dispatcher.Count < 2 || _dispatcher.GetFreeHarvester() == null)
+            return;
+
+        if (_storage.Crystals < _baseCost)
             return;
 
         // Если кристаллов достаточно, то отсылаем Сборщика к флагу
@@ -100,5 +105,10 @@ public class HomeBase : MonoBehaviour, IHarvesterTarget
         harvester.SetHomeBase(this);
         harvester.transform.SetParent(transform);
         harvester.CrystalUnloaded += OnCrystalUnloaded;
+    }
+
+    internal void OnHarvesterReachedFlag(Harvester harvester)
+    {
+        throw new NotImplementedException();
     }
 }
