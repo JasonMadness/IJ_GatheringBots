@@ -7,6 +7,8 @@ public class HarvesterDispatcher : MonoBehaviour
     private List<Harvester> _harvesters = new();
     private CrystalScanner _scanner;
 
+    public int Count => _harvesters.Count;
+
     private void OnDisable()
     {
         if (_scanner != null)
