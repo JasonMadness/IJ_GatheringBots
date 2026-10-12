@@ -20,7 +20,7 @@ public class HomeBaseFactory : MonoBehaviour
     public HomeBase Build(Vector3 position, int startingCrystalAmount)
     {
         var homebase = Instantiate(_basePrefab, position, _basePrefab.transform.rotation);
-        homebase.Initialize(_crystalScanner, _harvesterFactory, startingCrystalAmount);
+        homebase.Initialize(_crystalScanner, _harvesterFactory, startingCrystalAmount, _newBaseCost);
         return homebase;
     }
 
